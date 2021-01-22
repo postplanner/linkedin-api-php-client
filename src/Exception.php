@@ -39,6 +39,13 @@ class Exception extends \Exception
     protected $rawResponse;
 
     /**
+     * LinkedIn code so we can use strings
+     *
+     * @var string
+     */
+    protected $code;
+
+    /**
      * Exception constructor.
      * @param string $message
      * @param int $code
@@ -52,7 +59,9 @@ class Exception extends \Exception
         $description = '',
         $rawResponse = ''
     ) {
-        parent::__construct($message, $code, $previousException);
+        $this->code = $code;
+        $parent_code = is_numeric($code) ? $code : 0;
+        parent::__construct($message, $parent_code, $previousException);
         $this->description = $description;
         $this->rawResponse = $rawResponse;
     }

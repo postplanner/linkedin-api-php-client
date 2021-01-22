@@ -368,7 +368,7 @@ class Client
         } catch (\Exception $exception) {
             throw new Exception(
                 'Malformed response contents.',
-                0,
+                'malformed-response-contents',
                 $exception,
                 $exception->getMessage(),
                 $contents
