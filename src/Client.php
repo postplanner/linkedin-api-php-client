@@ -353,6 +353,7 @@ class Client
     public static function responseToArray($response)
     {
         $result = [];
+        $contents = '';
         try {
             if ($contents = $response->getBody()->getContents()) {
                 $result = \GuzzleHttp\json_decode(
