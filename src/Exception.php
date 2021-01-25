@@ -32,6 +32,20 @@ class Exception extends \Exception
     protected $description;
 
     /**
+     * LinkedIn raw response
+     *
+     * @var string
+     */
+    protected $rawResponse;
+
+    /**
+     * LinkedIn code so we can use strings
+     *
+     * @var string
+     */
+    protected $code;
+
+    /**
      * Exception constructor.
      * @param string $message
      * @param int $code
@@ -42,10 +56,14 @@ class Exception extends \Exception
         $message = "",
         $code = 0,
         $previousException = null,
-        $description = ''
+        $description = '',
+        $rawResponse = ''
     ) {
-        parent::__construct($message, $code, $previousException);
+        $this->code = $code;
+        $parent_code = is_numeric($code) ? $code : 0;
+        parent::__construct($message, $parent_code, $previousException);
         $this->description = $description;
+        $this->rawResponse = $rawResponse;
     }
 
     /**
@@ -56,6 +74,16 @@ class Exception extends \Exception
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * Get raw LinkedIn response.
+     *
+     * @return string
+     */
+    public function getRawResponse()
+    {
+        return $this->rawResponse;
     }
 
     /**
@@ -88,7 +116,7 @@ class Exception extends \Exception
         $json = Client::responseToArray($response);
         if (isset($json['error_description'])) {
              return $json['error_description'];
-        } 
+        }
         if (isset($json['message'])) {
              return $json['message'];
         }
