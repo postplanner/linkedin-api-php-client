@@ -77,7 +77,7 @@ class Exception extends \Exception
     }
 
     /**
-     * Get raw LinkedIn response.
+     * Get LinkedIn raw response.
      *
      * @return string
      */

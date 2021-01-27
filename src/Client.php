@@ -367,8 +367,8 @@ class Client
             }
         } catch (\Exception $exception) {
             throw new Exception(
-                'Malformed response contents.',
-                'malformed-response-contents',
+                'Invalid json response.',
+                'invalid-json-response',
                 $exception,
                 $exception->getMessage(),
                 $contents
