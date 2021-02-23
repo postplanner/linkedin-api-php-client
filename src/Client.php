@@ -682,4 +682,28 @@ class Client
         }
         return $options;
     }
+
+    /**
+     * @param mixed $connect_timeout
+     *
+     * @return self
+     */
+    public function setConnectTimeout($connect_timeout)
+    {
+        $this->connect_timeout = $connect_timeout;
+
+        return $this;
+    }
+
+    /**
+     * @param mixed $timeout
+     *
+     * @return self
+     */
+    public function setTimeout($timeout)
+    {
+        $this->timeout = $timeout;
+
+        return $this;
+    }
 }
