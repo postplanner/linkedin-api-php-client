@@ -32,6 +32,16 @@ class Client
 {
 
     /**
+     * Float describing the number of seconds to wait while trying to connect to a server
+     */
+    private $connect_timeout = 30;
+
+    /**
+     * Float describing the total timeout of the request in seconds
+     */
+    private $timeout = 60;
+
+    /**
      * Grant type for authorization code
      */
     const OAUTH2_GRANT_TYPE = 'authorization_code';
@@ -286,6 +296,8 @@ class Client
             $headers['Connection'] = 'Keep-Alive';
             $guzzle = new GuzzleClient([
                 'headers' => $headers,
+                'connect_timeout' => $this->connect_timeout,
+                'timeout' =>  $this->timeout,
             ]);
             try {
                 $response = $guzzle->post($uri, ['form_params' => [
@@ -324,6 +336,8 @@ class Client
             $headers['Connection'] = 'Keep-Alive';
             $guzzle = new GuzzleClient([
                 'headers' => $headers,
+                'connect_timeout' =>  $this->connect_timeout,
+                'timeout' =>  $this->timeout,
             ]);
             try {
                 $response = $guzzle->post($uri, ['form_params' => [
@@ -556,6 +570,8 @@ class Client
         $guzzle = new GuzzleClient([
             'base_uri' => $this->getApiRoot(),
             'headers' => $headers,
+            'connect_timeout' =>  $this->connect_timeout,
+            'timeout' =>  $this->timeout,
         ]);
         if (!empty($params) && Method::GET === $method) {
             $endpoint .= '?' . build_query($params);
@@ -626,7 +642,9 @@ class Client
             $headers['Authorization'] = 'Bearer ' . $this->accessToken->getToken();
         }
         $guzzle = new GuzzleClient([
-            'base_uri' => $this->getApiRoot()
+            'base_uri' => $this->getApiRoot(),
+            'connect_timeout' =>  $this->connect_timeout,
+            'timeout' =>  $this->timeout,
         ]);
         $fileinfo = pathinfo($path);
         $filename = preg_replace('/\W+/', '_', $fileinfo['filename']);
