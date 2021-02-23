@@ -33,11 +33,13 @@ class Client
 
     /**
      * Float describing the number of seconds to wait while trying to connect to a server
+     * @var float
      */
     private $connect_timeout = 30;
 
     /**
      * Float describing the total timeout of the request in seconds
+     * @var float
      */
     private $timeout = 60;
 
@@ -225,10 +227,12 @@ class Client
      * @param string $clientId
      * @param string $clientSecret
      */
-    public function __construct($clientId = '', $clientSecret = '')
+    public function __construct($clientId = '', $clientSecret = '', ?float $connect_timeout = null, ?float $timeout = null)
     {
         !empty($clientId) && $this->setClientId($clientId);
         !empty($clientSecret) && $this->setClientSecret($clientSecret);
+        !is_null($connect_timeout) && $this->setConnectTimeout($connect_timeout);
+        !is_null($timeout) && $this->setTimeout($timeout);
     }
 
     /**
@@ -688,7 +692,7 @@ class Client
      *
      * @return self
      */
-    public function setConnectTimeout($connect_timeout)
+    public function setConnectTimeout(float $connect_timeout)
     {
         $this->connect_timeout = $connect_timeout;
 
@@ -700,7 +704,7 @@ class Client
      *
      * @return self
      */
-    public function setTimeout($timeout)
+    public function setTimeout(float $timeout)
     {
         $this->timeout = $timeout;
 
