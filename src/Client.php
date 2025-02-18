@@ -374,21 +374,23 @@ class Client
         $contents = '';
         try {
             if ($contents = $response->getBody()->getContents()) {
-                $result = \GuzzleHttp\json_decode(
+                $result = \json_decode(
                     $contents,
-                    true
+                    true,
+                    512,
+                    \JSON_THROW_ON_ERROR
                 );
             } else if ($contents = $response->getHeaders()) {
                 // Looks like when response body is empty the result might be in the headers.
                 // Good job LinkedIn.
                 $result = $contents;
             }
-        } catch (\Exception $exception) {
+        } catch (\Exception $ex) {
             throw new Exception(
                 'Invalid json response.',
                 'invalid-json-response',
-                $exception,
-                $exception->getMessage(),
+                $ex,
+                $ex->getMessage(),
                 $contents
             );
         }
@@ -559,7 +561,7 @@ class Client
      * @param string $method
      *
      * @return array
-     * @throws \LinkedIn\Exception
+     * @throws Exception
      */
     public function api($endpoint, array $params = [], $method = Method::GET)
     {
@@ -609,7 +611,7 @@ class Client
      * @param array  $params
      *
      * @return array
-     * @throws \LinkedIn\Exception
+     * @throws \LinkedInException
      */
     public function post($endpoint, array $params = [])
     {
@@ -667,8 +669,8 @@ class Client
         ];
         try {
             $response = $guzzle->request(Method::POST, 'media/upload', $options);
-        } catch (RequestException $requestException) {
-            throw Exception::fromRequestException($requestException);
+        } catch (RequestException $ex) {
+            throw Exception::fromRequestException($ex);
         }
         return self::responseToArray($response);
     }
@@ -682,7 +684,7 @@ class Client
     {
         $options = [];
         if ($method === Method::POST) {
-            $options['body'] = \GuzzleHttp\json_encode($params);
+            $options['body'] = \json_encode($params, \JSON_THROW_ON_ERROR);
         }
         return $options;
     }
