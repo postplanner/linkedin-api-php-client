@@ -611,7 +611,7 @@ class Client
      * @param array  $params
      *
      * @return array
-     * @throws \LinkedInException
+     * @throws \LinkedIn\Exception
      */
     public function post($endpoint, array $params = [])
     {
